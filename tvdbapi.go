@@ -78,11 +78,11 @@ func Search(query SearchQuery) ([]Series) {
 	}
 
 	if query.ImdbId != "" {
-		values.Add("imdbid", query.ImdbId)
+		values.Add("imdbId", query.ImdbId)
 	}
 
 	if query.Zap2itId != "" {
-		values.Add("Zap2itId", query.Zap2itId)
+		values.Add("zap2itId", query.Zap2itId)
 	}
 
 	url := fmt.Sprintf("https://api.thetvdb.com/search/series?%s", values.Encode())
