@@ -24,14 +24,14 @@ type Episode struct {
 	FirstAired string `json:"firstAired"`
 }
 
-func (series Series) GetEpisodes() []Episode {
+func (client Client) GetEpisodes(series Series) []Episode {
 	result := episodeData{}
 
 	url := fmt.Sprintf("https://api.thetvdb.com/series/%v/episodes", series.Id)
 
 	req, _ := http.NewRequest("GET", url, nil)
 
-	req.Header.Add("authorization", "Bearer " + apitoken)
+	req.Header.Add("authorization", "Bearer " + client.ApiToken)
 
 	res, _ := http.DefaultClient.Do(req)
 	defer res.Body.Close()

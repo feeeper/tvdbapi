@@ -48,7 +48,7 @@ type seriesInfoData struct {
 	SeriesInfo Series `json:"data"`
 }
 
-func Search(query SearchQuery) ([]Series) {
+func (client Client) Search(query SearchQuery) ([]Series) {
 	result := searchData{}
 	values := url.Values{}
 
@@ -68,7 +68,7 @@ func Search(query SearchQuery) ([]Series) {
 
 	req, _ := http.NewRequest("GET", url, nil)
 
-	req.Header.Add("authorization", "Bearer " + apitoken)
+	req.Header.Add("authorization", "Bearer " + client.ApiToken)
 	if query.AcceptLanguage != "" {
 		req.Header.Add("Accept-Language", query.AcceptLanguage)
 	}
@@ -91,18 +91,18 @@ func Search(query SearchQuery) ([]Series) {
 	return result.Series
 }
 
-func GetSeriesInfo(series Series) Series {
-	return GetSeriesInfoById(series.Id)
+func (client Client) GetSeriesInfo(series Series) Series {
+	return client.GetSeriesInfoById(series.Id)
 }
 
-func GetSeriesInfoById(seriesId int) Series {
+func (client Client) GetSeriesInfoById(seriesId int) Series {
 	result := seriesInfoData{}
 
 	url := fmt.Sprintf("https://api.thetvdb.com/series/%v", seriesId)
 
 	req, _ := http.NewRequest("GET", url, nil)
 
-	req.Header.Add("authorization", "Bearer " + apitoken)
+	req.Header.Add("authorization", "Bearer " + client.ApiToken)
 
 	res, _ := http.DefaultClient.Do(req)
 	defer res.Body.Close()

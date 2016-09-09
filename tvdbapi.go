@@ -15,9 +15,12 @@ type TvDbConfig struct {
 	UserKey string
 }
 
-var apitoken = ""
+type Client struct {
+	ApiToken string
+}
 
-func Login(config TvDbConfig)  {
+func GetClient(config TvDbConfig) (Client, error) {
+	result := Client{}
 	client := http.Client{}
 
 	jsonStr := []byte(fmt.Sprintf(`{"username": "%s", "apikey": "%s", "userkey": "%s"}`, config.Username, config.ApiKey, config.UserKey))
@@ -30,18 +33,27 @@ func Login(config TvDbConfig)  {
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatal(err)
+		return result, err
 	}
 
 	var m interface{}
 	err = json.Unmarshal(body, &m)
 	if err != nil {
 		log.Fatal(err)
+		return result, err
 	}
 
-	if apitokentmp, ok := m.(map[string]interface{})["token"]; ok {
-		apitoken = apitokentmp.(string)
+	if apiToken, ok := m.(map[string]interface{})["token"]; ok {
+		result.ApiToken = apiToken.(string)
 		fmt.Println("login success")
+		return result, nil
 	} else {
 		fmt.Println("login unsuccess")
+		return result, LoginFailure{}
 	}
+}
+
+type LoginFailure struct {}
+func (lf LoginFailure) Error() string {
+	return "login failure"
 }
