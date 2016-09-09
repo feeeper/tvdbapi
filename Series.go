@@ -45,7 +45,7 @@ type Series struct {
 }
 
 type seriesInfoData struct {
-	SeriesInfo Series `json:"data"`
+	Series Series `json:"data"`
 }
 
 func (client Client) Search(query SearchQuery) ([]Series) {
@@ -113,15 +113,15 @@ func (client Client) GetSeriesInfoById(seriesId int) Series {
 
 	if err != nil {
 		log.Fatal(err)
-		return result.SeriesInfo
+		return result.Series
 	}
 
 	log.Println("get series info completed successfully")
 	log.Println(fmt.Sprintf("Series: %s; ImdbId: %s; LastUpdated: %s; Zip2itid: %s",
-		result.SeriesInfo.SeriesName,
-		result.SeriesInfo.ImdbId,
-		result.SeriesInfo.LastUpdated,
-		result.SeriesInfo.Zap2itId))
+		result.Series.SeriesName,
+		result.Series.ImdbId,
+		result.Series.LastUpdated,
+		result.Series.Zap2itId))
 
-	return result.SeriesInfo
+	return result.Series
 }
