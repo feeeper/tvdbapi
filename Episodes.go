@@ -45,7 +45,7 @@ func (client Client) GetEpisodes(series Series) []Episode {
 		return result.Episodes
 	}
 
-	log.Println("get series info completed successfully")
+	log.Println("get episodes completed successfully")
 	log.Println(fmt.Sprintf("Total episodes: %v", len(result.Episodes)))
 
 	return result.Episodes
