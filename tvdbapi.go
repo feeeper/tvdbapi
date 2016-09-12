@@ -1,18 +1,18 @@
 package tvdbapi
 
-import(
-	"fmt"
-	"net/http"
+import (
 	"bytes"
-	"log"
-	"io/ioutil"
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
 )
 
 type TvDbConfig struct {
 	Username string
-	ApiKey string
-	UserKey string
+	ApiKey   string
+	UserKey  string
 }
 
 type Client struct {
@@ -53,7 +53,8 @@ func GetClient(config TvDbConfig) (Client, error) {
 	}
 }
 
-type LoginFailure struct {}
+type LoginFailure struct{}
+
 func (lf LoginFailure) Error() string {
 	return "login failure"
 }

@@ -1,11 +1,11 @@
 package tvdbapi
 
 import (
-	"fmt"
-	"net/http"
-	"io/ioutil"
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"log"
+	"net/http"
 )
 
 type episodeData struct {
@@ -13,15 +13,15 @@ type episodeData struct {
 }
 
 type Episode struct {
-	AbsoluteNumber int `json:"absoluteNumber"`
-	AiredEpisodeNumber int `json:"airedEpisodeNumber"`
-	AiredSeason int `json:"airedSeason"`
-	DvdEpisodeNumber int `json:"dvdEpisodeNumber"`
-	DvdSeason int `json:"dvdSeason"`
-	EpisodeName string `json:"episodeName"`
-	Id int `json:"id"`
-	Overview string `json:"overview"`
-	FirstAired string `json:"firstAired"`
+	AbsoluteNumber     int       `json:"absoluteNumber"`
+	AiredEpisodeNumber int       `json:"airedEpisodeNumber"`
+	AiredSeason        int       `json:"airedSeason"`
+	DvdEpisodeNumber   int       `json:"dvdEpisodeNumber"`
+	DvdSeason          int       `json:"dvdSeason"`
+	EpisodeName        string    `json:"episodeName"`
+	Id                 int       `json:"id"`
+	Overview           string    `json:"overview"`
+	FirstAired         AiredTime `json:"firstAired"`
 }
 
 func (client Client) GetEpisodes(series Series) []Episode {
@@ -31,7 +31,7 @@ func (client Client) GetEpisodes(series Series) []Episode {
 
 	req, _ := http.NewRequest("GET", url, nil)
 
-	req.Header.Add("authorization", "Bearer " + client.ApiToken)
+	req.Header.Add("authorization", "Bearer "+client.ApiToken)
 
 	res, _ := http.DefaultClient.Do(req)
 	defer res.Body.Close()
