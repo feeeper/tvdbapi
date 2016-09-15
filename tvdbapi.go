@@ -28,6 +28,7 @@ func GetClient(config TvDbConfig) (Client, error) {
 
 	if err != nil {
 		log.Fatal(err)
+		return result, err
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
