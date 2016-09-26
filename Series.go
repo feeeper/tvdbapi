@@ -33,7 +33,7 @@ func (ct *AiredTime) UnmarshalJSON(b []byte) (err error) {
 	}
 	if len(b) == 0 {
 		// sometimes AiredDate is empty. Lets it will be 1900-01-01
-		ct.Time, err = time.Parse(ctLayout, "1900-01-01")
+		ct.Time, err = time.Parse(ctLayout, "2999-12-31")
 	} else {
 		ct.Time, err = time.Parse(ctLayout, string(b))
 	}
