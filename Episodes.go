@@ -25,9 +25,13 @@ type Episode struct {
 }
 
 func (client Client) GetEpisodes(series Series) []Episode {
+	return client.GetEpisodesBySeriesId(series.Id)
+}
+
+func (client Client) GetEpisodesBySeriesId(seriesId int) []Episode {
 	result := episodeData{}
 
-	url := fmt.Sprintf("https://api.thetvdb.com/series/%v/episodes", series.Id)
+	url := fmt.Sprintf("https://api.thetvdb.com/series/%v/episodes", seriesId)
 
 	req, _ := http.NewRequest("GET", url, nil)
 
