@@ -68,6 +68,15 @@ type seriesInfoData struct {
 	Series Series `json:"data"`
 }
 
+type Update struct {
+	Updated		time.Time	`json:"lastUpdated"`
+	SeriesId	int		`json:""id`
+}
+
+type updates struct {
+	Updates		[]Update	`json:"data"`
+}
+
 func (client Client) Search(query SearchQuery) []Series {
 	result := searchData{}
 	values := url.Values{}
@@ -145,4 +154,35 @@ func (client Client) GetSeriesInfoById(seriesId int) Series {
 		result.Series.FirstAired))
 
 	return result.Series
+}
+
+func (client Client) GetUpdate(fromTime time.Time) ([]Update, error) {
+	var result []Update
+	var updates updates
+	url := fmt.Sprintf("https://api.thetvdb.com/updated/query?fromTime=%s", fromTime.Format("UnixTime"))
+
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return result, err
+	}
+
+	req.Header.Add("authorization", "Bearer " + client.ApiToken)
+
+	res, err := http.DefaultClient.Do(req)
+	defer res.Body.Close()
+	if err != nil {
+		return result, err
+	}
+
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return result, err
+	}
+
+	err = json.Unmarshal(body, &updates)
+	if err != nil {
+		return result, err
+	}
+
+	return updates.Updates, nil
 }
