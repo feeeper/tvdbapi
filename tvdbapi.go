@@ -74,7 +74,7 @@ func (client Client) UpdateToken() error {
 		log.Fatal(err)
 		return err
 	}
-	
+
 	if apiToken, ok := m.(map[string]interface{})["token"]; ok {
 		client.ApiToken = apiToken.(string)
 		fmt.Println("update success")
