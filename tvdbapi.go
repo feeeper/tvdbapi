@@ -54,6 +54,38 @@ func GetClient(config TvDbConfig) (Client, error) {
 	}
 }
 
+func (client Client) UpdateToken() error {
+	httpClient := http.Client{}
+	resp, err := httpClient.Get("https://api.thetvdb.com//refresh_token")
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+
+	var m interface{}
+	err = json.Unmarshal(body, &m)
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+	
+	if apiToken, ok := m.(map[string]interface{})["token"]; ok {
+		client.ApiToken = apiToken.(string)
+		fmt.Println("update success")
+		return nil
+	} else {
+		fmt.Println("update failure")
+		return LoginFailure{}
+	}
+
+}
+
 type LoginFailure struct{}
 
 func (lf LoginFailure) Error() string {
