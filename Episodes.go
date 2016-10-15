@@ -16,7 +16,7 @@ type Episode struct {
 	AbsoluteNumber     int       `json:"absoluteNumber"`
 	AiredEpisodeNumber int       `json:"airedEpisodeNumber"`
 	AiredSeason        int       `json:"airedSeason"`
-	DvdEpisodeNumber   int       `json:"dvdEpisodeNumber"`
+	DvdEpisodeNumber   float32   `json:"dvdEpisodeNumber"`
 	DvdSeason          int       `json:"dvdSeason"`
 	EpisodeName        string    `json:"episodeName"`
 	Id                 int       `json:"id"`
@@ -35,7 +35,7 @@ func (client Client) GetEpisodesBySeriesId(seriesId int) []Episode {
 
 	req, _ := http.NewRequest("GET", url, nil)
 
-	req.Header.Add("authorization", "Bearer "+client.ApiToken)
+	req.Header.Add("authorization", "Bearer " + client.ApiToken)
 
 	res, _ := http.DefaultClient.Do(req)
 	defer res.Body.Close()

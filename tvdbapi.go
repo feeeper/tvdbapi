@@ -54,7 +54,7 @@ func GetClient(config TvDbConfig) (Client, error) {
 	}
 }
 
-func (client Client) UpdateToken() error {
+func (client *Client) UpdateToken() error {
 	httpClient := http.Client{}
 	resp, err := httpClient.Get("https://api.thetvdb.com//refresh_token")
 	if err != nil {
